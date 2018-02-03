@@ -38,3 +38,15 @@ func TestAccessConfigPrepare_Region(t *testing.T) {
 	c.SkipValidation = false
 
 }
+
+func TestAccessConfigPrepare_RegionRestrictd(t *testing.T) {
+	c := testAccessConfig()
+	c.RawRegion = "us-gov-west-1"
+	if err := c.Prepare(nil); err != nil {
+		t.Fatalf("shouldn't have err: %s", err)
+	}
+
+	if !c.IsGovCloud() {
+		t.Fatal("We should be in gov region.")
+	}
+}
